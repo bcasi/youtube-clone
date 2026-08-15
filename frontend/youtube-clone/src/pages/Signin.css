@@ -1,0 +1,37 @@
+input[type="text"],
+[type="password"] {
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: 1px solid white;
+  outline: none;
+  font-size: 14px;
+  margin-left: 15px;
+}
+
+form {
+  margin-top: 15%;
+  padding: 15px 15px;
+  border-radius: 15px;
+  background-color: rgb(67, 96, 122);
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.form_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gender {
+  padding: 10px 10px;
+  width: 70%;
+  border-radius: 5px;
+  margin-left: 25px;
+}
+
+.submit {
+  padding: 15px;
+  border-radius: 5px;
+}

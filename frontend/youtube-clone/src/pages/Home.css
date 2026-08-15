@@ -1,0 +1,21 @@
+.thumbnail {
+  display: block;
+  width: 100%;
+  border-radius: 15px;
+  max-height: 150px;
+}
+
+.videos_parent {
+  max-width: 250px;
+  display: flex;
+  border-radius: 15px;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.videos_container {
+  display: flex;
+  flex-direction: row;
+  max-height: 150px;
+  gap: 15px;
+}

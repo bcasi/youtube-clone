@@ -1,0 +1,16 @@
+.topbar_container {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+.upload {
+  padding: 10px;
+  border-radius: 10px;
+  width: 150px;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.logo {
+  cursor: pointer;
+}
