@@ -3,7 +3,7 @@ import "./Signin.css";
 
 import React, { useState } from "react";
 import Signup from "./Signup";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signin() {
   const navigate = useNavigate();
@@ -61,6 +61,9 @@ export default function Signin() {
         <button className="submit" type="submit">
           Log in
         </button>
+        <p>
+          Don't have an account <Link to={"/signup"}>Sign Up</Link>
+        </p>
       </form>
     </div>
   );

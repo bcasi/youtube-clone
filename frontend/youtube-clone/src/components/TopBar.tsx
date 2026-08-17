@@ -12,16 +12,21 @@ export default function TopBar() {
   const goToHome = () => {
     window.location = "/";
   };
+  const goToSignIn = () => {
+    window.location = "/signin";
+  };
 
   return (
     <div className="topbar_container">
       <div className="logo" onClick={goToHome}>
         Youtube
       </div>
-      {token && (
+      {token ? (
         <button onClick={goToUpload} className="upload">
           Upload
         </button>
+      ) : (
+        <button onClick={goToSignIn}>Sigin</button>
       )}
     </div>
   );

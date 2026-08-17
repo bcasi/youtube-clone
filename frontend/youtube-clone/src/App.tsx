@@ -14,15 +14,17 @@ import VideoPage from "./pages/VideoPage";
 function App() {
   return (
     <>
-      <TopBar />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/watch/:id" element={<VideoPage />} />
-        </Routes>
+        <div>
+          <TopBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/watch/:id" element={<VideoPage />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </>
   );
