@@ -1,7 +1,7 @@
 input[type="text"],
 [type="password"] {
   padding: 10px 10px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   border: 1px solid white;
   outline: none;
   font-size: 14px;

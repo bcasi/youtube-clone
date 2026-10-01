@@ -29,6 +29,7 @@ export default function Signin() {
       );
       const data = await signup.data;
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.userId);
       navigate("/");
     } catch (err) {
       console.log(err);

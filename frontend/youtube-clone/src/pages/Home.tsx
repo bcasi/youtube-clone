@@ -2,6 +2,7 @@ import axios from "axios";
 import "./Home.css";
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import VideoScreen from "../components/VideoScreen";
 
 export default function Home() {
   const [videos, setVideos] = useState([]);
@@ -23,12 +24,7 @@ export default function Home() {
   return (
     <div className="videos_container">
       {videos.map((item) => (
-        <Link to={`/watch/${item.id}`}>
-          <div key={item.id} className="videos_parent">
-            <img className="thumbnail" src={item.thumbnail} />
-            <p>{item.title}</p>
-          </div>
-        </Link>
+        <VideoScreen video={item} />
       ))}
     </div>
   );

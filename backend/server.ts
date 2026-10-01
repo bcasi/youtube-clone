@@ -171,6 +171,31 @@ app.post("/api/videos", async (req, res) => {
   res.status(201).json(video);
 });
 
+app.get("/api/userProfile", async (req, res) => {
+  const userId = getUserId(req);
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  console.log(userId);
+  const findUser = await prisma.user.findFirst({
+    where: { id: userId },
+    select: {
+      id: true,
+      username: true,
+      gender: true,
+      channelName: true,
+      description: true,
+      profilePicture: true,
+      subscriberCount: true,
+      banner: true,
+    },
+  });
+
+  console.log("findUser", findUser);
+
+  res.status(200).json(findUser);
+});
+
 app.post("/getPresignedUrl", async (req, res) => {
   // Generate presigned URL for reading (GET)
   const public_url = "https://pub-243c58f3d20f47dfb6bea976593f2b58.r2.dev";
