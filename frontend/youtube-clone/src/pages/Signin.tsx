@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Signup from "./Signup";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Signin() {
+export default function Signin({ token, setToken, setProfilePic }) {
   const navigate = useNavigate();
   const [signIn, setSignin] = useState({
     username: "",
@@ -28,8 +28,13 @@ export default function Signin() {
         signIn,
       );
       const data = await signup.data;
+      console.log(data);
       localStorage.setItem("token", data.token);
       localStorage.setItem("userId", data.userId);
+      localStorage.setItem("profilePicture", data.profilePicture);
+
+      setToken(data.token);
+      setProfilePic(data.profilePicture);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -37,7 +42,7 @@ export default function Signin() {
   };
   return (
     <div className="form_container">
-      <form onSubmit={handleSubmit}>
+      <form className="bg-gray-400" onSubmit={handleSubmit}>
         <div className="dual_container">
           <label>Username</label>
           <input

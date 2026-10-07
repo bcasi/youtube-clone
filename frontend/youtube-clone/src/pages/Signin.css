@@ -12,7 +12,7 @@ form {
   margin-top: 15%;
   padding: 15px 15px;
   border-radius: 15px;
-  background-color: rgb(67, 96, 122);
+  background-color: rgb(45, 44, 44) !important;
   max-width: 500px;
   display: flex;
   flex-direction: column;

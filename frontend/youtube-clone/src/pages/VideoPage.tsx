@@ -3,19 +3,20 @@ import { useParams } from "react-router-dom";
 import "./VideoPage.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { watchVideo } from "../api/api";
 
 export default function VideoPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [video, setVideo] = useState();
   const [allVideos, setAllVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const token = localStorage.getItem("token") ?? "";
 
   console.log(id);
   useEffect(() => {
+    if (!id) return;
     const fetchVideo = async () => {
-      const video = await axios.get("http://localhost:3000/api/videos/" + id);
-      const res = await video.data;
-      console.log(res);
+      const res = await watchVideo(id, token);
       setVideo(res);
       setIsLoading(false);
     };

@@ -18,4 +18,5 @@
   flex-direction: row;
   max-height: 150px;
   gap: 15px;
+  flex-wrap: wrap;
 }

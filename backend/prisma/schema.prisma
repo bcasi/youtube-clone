@@ -23,6 +23,9 @@ model User{
   subscriberCount     Int       @default(0)
   description         String?
   uploads             Uploads[]
+  history             History[]
+  subscriptions       Subscriptions[] @relation("Subscriber")
+  subscribers         Subscriptions[] @relation("Channel")
 }
 
 
@@ -34,6 +37,29 @@ model Uploads{
   userid              String
   user                User      @relation(fields: [userid], references: [id])
   createdAt           DateTime  @default(now())
+  history             History[]
+}
+
+
+model History{
+  id                  String    @id       @default(uuid())
+  userId              String
+  uploadedId          String
+  watchedAt           DateTime  @default(now())
+
+  user                User      @relation(fields: [userId], references: [id])
+  uploads             Uploads   @relation(fields: [uploadedId], references: [id])
+}
+
+model Subscriptions {
+  id            String   @id @default(uuid())
+  subscriberId  String
+  channelId     String
+
+  subscriber    User     @relation("Subscriber", fields: [subscriberId], references: [id])
+  channel       User     @relation("Channel", fields: [channelId], references: [id])
+
+  createdAt     DateTime @default(now())
 }
 
 

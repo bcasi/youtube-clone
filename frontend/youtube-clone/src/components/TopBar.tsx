@@ -1,10 +1,25 @@
 import "./TopBaar.css";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaYoutube } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { Tooltip } from "react-tooltip";
 
-export default function TopBar({ width, setWidth }) {
+export default function TopBar({
+  width,
+  setWidth,
+  search,
+  setSearch,
+  token,
+  setToken,
+  profilePic,
+  setProfilePic,
+}) {
   // const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    setProfilePic(localStorage.getItem("profilePicture"));
+  }, [setToken, setProfilePic]);
 
   const goToUpload = () => {
     window.location = "/upload";
@@ -13,6 +28,11 @@ export default function TopBar({ width, setWidth }) {
     window.location = "/";
   };
   const goToSignIn = () => {
+    window.location = "/signin";
+  };
+
+  const handleSignout = () => {
+    localStorage.clear();
     window.location = "/signin";
   };
 
@@ -44,6 +64,8 @@ export default function TopBar({ width, setWidth }) {
 
       <div className="flex justify-center items-center relative">
         <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           type="text"
           placeholder="Search"
           className="border-l-0 w-134 placeholder-indigo-50 rounded-r-none "
@@ -53,9 +75,21 @@ export default function TopBar({ width, setWidth }) {
         </button> */}
       </div>
       {token ? (
-        <button onClick={goToUpload} className="upload">
-          Upload
-        </button>
+        <div className="flex gap-2 ">
+          <button onClick={goToUpload} className="upload">
+            Upload
+          </button>
+
+          <img
+            className="max-w-12 rounded-full cursor-pointer"
+            onClick={handleSignout}
+            id="upload-btn"
+            src={profilePic}
+          />
+          <Tooltip anchorSelect="#upload-btn" place="bottom">
+            Sign Out
+          </Tooltip>
+        </div>
       ) : (
         <button onClick={goToSignIn}>Sigin</button>
       )}
