@@ -43,23 +43,25 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="flex flex-col h-screen">
-        {/* Top bar at the top */}
-        <TopBar
-          width={sidebarWidth}
-          setWidth={setSidebarWidth}
-          search={search}
-          setSearch={setSearch}
-          token={token}
-          setToken={setToken}
-          profilePic={profilePic}
-          setProfilePic={setProfilePic}
-        />
+      <div className="flex flex-col h-screen overflow-hidden">
+        <div className="shrink-0 z-50">
+          <TopBar
+            width={sidebarWidth}
+            setWidth={setSidebarWidth}
+            search={search}
+            setSearch={setSearch}
+            token={token}
+            setToken={setToken}
+            profilePic={profilePic}
+            setProfilePic={setProfilePic}
+          />
+        </div>
 
-        {/* Main area: sidebar + content */}
-        <div className="flex flex-1">
-          <SidebarNav width={sidebarWidth} setWidth={setSidebarWidth} />
-          <div className="flex-1 overflow-y-auto">
+        <div className="flex flex-1 min-h-0 overflow-hidden">
+          <aside className="shrink-0 h-full overflow-y-hidden  overflow-x-hidden">
+            <SidebarNav width={sidebarWidth} setWidth={setSidebarWidth} />
+          </aside>
+          <main className="flex-1 min-w-0 min-h-0 overflow-y-auto overflow-x-hidden">
             <Routes>
               <Route path="/" element={<Home search={search} />} />
               <Route
@@ -79,7 +81,7 @@ function App() {
               <Route path="/feed/you" element={<Profile />} />
               <Route path="/channel/:channelname" element={<Channel />} />
             </Routes>
-          </div>
+          </main>
         </div>
       </div>
     </BrowserRouter>

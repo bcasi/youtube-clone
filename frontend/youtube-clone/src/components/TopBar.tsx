@@ -45,7 +45,7 @@ export default function TopBar({
     }
   };
   return (
-    <div className="topbar_container flex-1 ">
+    <div className="topbar_container flex-1 sticky top-0 z-50">
       <div className="text-white  text-2xl ml-5 flex">
         <button
           onClick={burgerMenuClick}
