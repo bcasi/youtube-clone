@@ -15,8 +15,9 @@ export default function VideoPage() {
   const [allVideos, setAllVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { channel, isSubscribe, handleUnSubscribe, handleSubscribe, token } =
-    useChannel({ channelname: channelname ?? "" });
+  const { isSubscribe, handleUnSubscribe, handleSubscribe, token } = useChannel(
+    { channelname: channelname ?? "" },
+  );
   console.log(channelname);
 
   console.log(id);
