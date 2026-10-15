@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getChannel, subscribe, unSubscribe } from "../api/api";
 import type { User } from "../components/VideoScreen";
+import useChannel from "../lib/hooks/useChannel";
 
 export interface Uploads {
   createdAt: string;
@@ -19,59 +20,16 @@ export interface Channel {
 
 export default function Channel() {
   const { channelname } = useParams<{ channelname: string }>();
-  const [channel, setChannel] = useState<Channel | null>(null);
-  const [isSubscribe, setIsSubscribe] = useState(false);
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
 
+  const {
+    channel,
+
+    isSubscribe,
+
+    handleUnSubscribe,
+    handleSubscribe,
+  } = useChannel({ channelname: channelname ?? "" });
   console.log(channelname);
-  useEffect(() => {
-    if (!channelname) return;
-    const getChannelData = async () => {
-      const fetch = await getChannel(channelname);
-      console.log(fetch);
-      setChannel(fetch);
-      let isSubscribed = fetch?.user.subscribers.some(
-        (item) => item.subscriberId === userId,
-      );
-      setIsSubscribe(isSubscribed);
-    };
-    getChannelData();
-  }, [channelname]);
-
-  const handleSubscribe = async () => {
-    if (!token) return;
-    if (!channel?.user?.id) return;
-    if (!channelname) return;
-    const sub = await subscribe(token, channel?.user?.id);
-
-    const channelSubId = await sub.channelId;
-
-    const fetch = await getChannel(channelname);
-    console.log(fetch);
-    setChannel(fetch);
-    let isSubscribed = fetch?.user.subscribers.some(
-      (item) => item.subscriberId === userId,
-    );
-    setIsSubscribe(isSubscribed);
-  };
-
-  const handleUnSubscribe = async () => {
-    if (!token) return;
-    if (!channel?.user?.id) return;
-    if (!channelname) return;
-    const sub = await unSubscribe(token, channel?.user?.id);
-
-    const channelSubId = await sub.channelId;
-
-    const fetch = await getChannel(channelname);
-    console.log(fetch);
-    setChannel(fetch);
-    let isSubscribed = fetch?.user.subscribers.some(
-      (item) => item.subscriberId === userId,
-    );
-    setIsSubscribe(isSubscribed);
-  };
 
   return (
     <div className=" flex flex-col">

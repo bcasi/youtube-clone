@@ -3,6 +3,7 @@
   width: 100%;
   border-radius: 15px;
   max-height: 150px;
+  min-height: 150px;
 }
 
 .videos_parent {
