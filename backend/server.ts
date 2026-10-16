@@ -12,6 +12,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { includes } from "zod";
 import { channel } from "node:diagnostics_channel";
 import { title } from "node:process";
+import { error } from "node:console";
 
 const R2_URL =
   "https://aec64b6970178986c891548e70bc2de3.r2.cloudflarestorage.com";
@@ -288,6 +289,82 @@ app.get("/api/all_subscriptions", async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/api/videos/:id/comment", async (req, res) => {
+  const userId = getUserId(req);
+  const videoId = req.params.id;
+  const { content } = req.body;
+  console.log(videoId);
+  try {
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const createComments = await prisma.comment.create({
+      data: { uploadedId: videoId, content, userId },
+    });
+
+    const getComments = await prisma.comment.findMany({
+      where: { uploadedId: videoId },
+    });
+    res.json(getComments);
+  } catch (error) {
+    res.json(error);
+  }
+});
+app.get("/api/videos/:id/comment", async (req, res) => {
+  const videoId = req.params.id;
+  console.log(videoId);
+  try {
+    const findComments = await prisma.comment.findMany({
+      where: { uploadedId: videoId },
+      include: {
+        replies: {
+          select: { id: true },
+        },
+      },
+    });
+    res.json(findComments);
+  } catch (error) {
+    res.json(error);
+  }
+});
+app.post("/api/videos/comment/:id/reply", async (req, res) => {
+  const userId = getUserId(req);
+
+  const commentId = req.params.id;
+  console.log("commentId", commentId);
+  const { content } = req.body;
+  try {
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const postReply = await prisma.reply.create({
+      data: {
+        commentId,
+        content,
+        userId,
+      },
+    });
+    const findReplies = await prisma.reply.findMany({
+      where: { commentId },
+    });
+    res.json(findReplies);
+  } catch (error) {
+    res.json(error);
+  }
+});
+app.get("/api/videos/comment/:id/reply", async (req, res) => {
+  const commentId = req.params.id;
+  console.log(commentId);
+  try {
+    const findReplies = await prisma.reply.findMany({
+      where: { commentId },
+    });
+    res.json(findReplies);
+  } catch (error) {
+    res.json(error);
   }
 });
 

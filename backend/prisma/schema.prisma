@@ -26,6 +26,8 @@ model User{
   history             History[]
   subscriptions       Subscriptions[] @relation("Subscriber")
   subscribers         Subscriptions[] @relation("Channel")
+  comments            Comment[]
+  reply               Reply[]
 }
 
 
@@ -38,6 +40,7 @@ model Uploads{
   user                User      @relation(fields: [userid], references: [id])
   createdAt           DateTime  @default(now())
   history             History[]
+  comments            Comment[]
 }
 
 
@@ -60,6 +63,31 @@ model Subscriptions {
   channel       User     @relation("Channel", fields: [channelId], references: [id])
 
   createdAt     DateTime @default(now())
+}
+
+
+model Comment{
+  id            String    @id  @default(uuid())
+  content       String
+  userId        String
+  uploadedId    String
+  createdAt     DateTime  @default(now())
+
+  user          User     @relation(fields: [userId], references: [id])
+  uploads       Uploads  @relation(fields: [uploadedId], references: [id])
+  replies       Reply[]    
+}
+
+
+model Reply{
+  id           String   @id   @default(uuid())
+  content      String
+  userId       String
+  commentId    String
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id])
+  comments     Comment @relation(fields: [commentId], references: [id])
 }
 
 
