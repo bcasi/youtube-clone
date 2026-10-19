@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-interface Video {
+export interface Video {
   createdAt: string;
   id: string;
   thumbnail: string;

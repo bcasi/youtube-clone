@@ -85,3 +85,84 @@ export const subscriptions = async (token: string) => {
     console.log(error);
   }
 };
+
+export const getComments = async (videoId: string) => {
+  try {
+    const getAllComments = await axios.get(
+      backend_url + `/api/videos/${videoId}/comment`,
+    );
+    console.log("getAllComments", getAllComments.data);
+    const data = await getAllComments.data;
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const postComment = async (
+  token: string,
+  videoId: string,
+  content: string,
+) => {
+  try {
+    const postAComment = await axios.post(
+      backend_url + `/api/videos/${videoId}/comment`,
+      {
+        content,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    console.log(postAComment);
+    const res = await postAComment.data;
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const postReply = async (
+  token: string,
+  commentId: string,
+  content: string,
+) => {
+  try {
+    const postAComment = await axios.post(
+      backend_url + `/api/videos/comment/${commentId}/reply`,
+      {
+        content,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    console.log(postAComment);
+
+    const getAllReply = await axios.get(
+      backend_url + `/api/videos/comment/${commentId}/reply`,
+    );
+    console.log("getAllReply", getAllReply);
+    const res = await getAllReply.data;
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getReply = async (commentId: string) => {
+  try {
+    const getAllReply = await axios.get(
+      backend_url + `/api/videos/comment/${commentId}/reply`,
+    );
+    console.log("getAllReply", getAllReply);
+    const res = await getAllReply.data;
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
