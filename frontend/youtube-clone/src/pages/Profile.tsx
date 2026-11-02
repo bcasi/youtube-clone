@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { getUser } from "../api/api";
 import type { User } from "../components/VideoScreen";
 import VideoScreen from "../components/VideoScreen";
+import LoaderSpinner from "../components/LoaderSpinner";
 
 export default function Profile() {
   const [profile, setProfile] = useState<User | null>(null);
   const [videos, setVideos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
   console.log(token);
 
@@ -13,15 +15,25 @@ export default function Profile() {
     if (!token) return;
     const fetchUser = async () => {
       try {
+        setIsLoading(true);
         const user = await getUser(token);
         setProfile(user);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
     fetchUser();
   }, [token]);
   console.log(profile);
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <LoaderSpinner />
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col">
       <div className="flex gap-5">

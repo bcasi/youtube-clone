@@ -12,6 +12,11 @@ import {
 } from "../api/api";
 import useChannel from "../lib/hooks/useChannel";
 import type { User, Video } from "../components/VideoScreen";
+import RightVideosSection from "../components/RightVideosSection";
+
+import CommentsSection from "../components/CommentsSection";
+
+import LoaderSpinner from "../components/LoaderSpinner";
 
 export interface Comment {
   id: string;
@@ -94,15 +99,20 @@ export default function VideoPage() {
     if (!id) return;
     if (!typeComment) return;
     const allComments = await postComment(token, id, typeComment);
-    setComments(allComments);
+    console.log(allComments);
+    const getAllComments = await getComments(id);
+    setComments(getAllComments);
   };
 
   const handlePostReply = async (commentId: string) => {
     if (!token) return;
     if (!commentId) return;
     if (!typeReply) return;
+    if (!id) return;
     const allReplies = await postReply(token, commentId, typeReply);
     setShowReplies(allReplies);
+    const getAllComments = await getComments(id);
+    setComments(getAllComments);
   };
 
   const showReply = async (commentId: string) => {
@@ -113,7 +123,11 @@ export default function VideoPage() {
   };
 
   if (isLoading) {
-    return <div>...Loading</div>;
+    return (
+      <div className="flex justify-center items-center">
+        <LoaderSpinner />
+      </div>
+    );
   }
 
   return (
@@ -173,8 +187,8 @@ export default function VideoPage() {
               src={video?.user.profilePicture}
             />
             <textarea
-              value={typeReply}
-              onChange={(e) => setTypeReply(e.target.value)}
+              value={typeComment}
+              onChange={handleTypeComment}
               className="border-b-2 w-full min-w-2xl focus:outline-none focus:border-b-2 pt-3"
             ></textarea>
           </div>
@@ -189,55 +203,22 @@ export default function VideoPage() {
         </div>
         <div className="flex flex-col gap-5 items-start  justify-start">
           {comments?.map((item) => (
-            <div className="flex flex-col w-full items-start">
-              <p className="text-white">{item?.content}</p>
-              <button
-                onClick={() =>
-                  setIsReply((isId) => (isId == "" ? item.id : ""))
-                }
-                className="cursor-pointer"
-              >
-                Reply
-              </button>
-              {isReply == item.id && (
-                <div className="flex">
-                  <textarea
-                    value={typeReply}
-                    onChange={(e) => setTypeReply(e.target.value)}
-                    className="border-b-2 w-full min-w-2xl focus:outline-none focus:border-b-2 pt-3"
-                  ></textarea>
-                  <button
-                    onClick={() => handlePostReply(item.id)}
-                    className="rounded-2xl border-2 px-2 cursor-pointer"
-                  >
-                    Reply
-                  </button>
-                </div>
-              )}
-              <div
-                onClick={() => showReply(item.id)}
-                className="cursor-pointer text-white"
-              >
-                {item.replies.length} Replies &#8595;
-              </div>
-              {showReplies?.length >= 1 && (
-                <div className="flex flex-col items-start">
-                  {showReplies?.map((replies) => (
-                    <p className="text-white">
-                      {replies.commentId == item.id && replies.content}
-                    </p>
-                  ))}
-                </div>
-              )}
-            </div>
+            <CommentsSection
+              item={item}
+              setIsReply={setIsReply}
+              isReply={isReply}
+              setTypeReply={setTypeReply}
+              typeReply={typeReply}
+              handlePostReply={handlePostReply}
+              showReply={showReply}
+              showReplies={showReplies}
+            />
           ))}
         </div>
       </div>
       <div className="all_videos_container">
         {allVideos.map((video) => (
-          <div className="all_videos">
-            <img className="thumbnail" src={video.thumbnail} />
-          </div>
+          <RightVideosSection video={video} />
         ))}
       </div>
     </div>

@@ -41,13 +41,13 @@ export interface History {
 export default function VideoScreen({ video }: { video: Video }) {
   return (
     <div key={video.id} className="videos_parent min-h-64 min-w-64 ">
-      <Link to={`/watch/${video.id}?channelname=${video.user.channelName}`}>
+      <Link to={`/watch/${video.id}?channelname=${video.user?.channelName}`}>
         <img className="thumbnail" src={video.thumbnail} />
         <p>{video.title}</p>
       </Link>
       <Link to={`/channel/${video.user?.channelName}`} className="flex  gap-5">
         <img className="w-9 rounded-full" src={video.user?.profilePicture} />
-        <p>{video.user?.channelName}</p>
+        <p>{video?.user?.channelName}</p>
       </Link>
     </div>
   );
