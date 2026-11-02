@@ -54,11 +54,11 @@ export default function TopBar({
           <RxHamburgerMenu />
         </button>
         <div
-          className="flex cursor-pointer justify-center items-center ml-3"
+          className="flex gap-2 cursor-pointer justify-center items-center ml-3"
           onClick={goToHome}
         >
           <FaYoutube />
-          <p>Youtube</p>
+          <p className="">Youtube</p>
         </div>
       </div>
 
